@@ -187,6 +187,47 @@
         }
     });
 </script>
+<!-- DuckDuckGo Search Bar -->
+<div class="mt-8 flex justify-center w-full">
+    <form id="duckSearchForm" class="flex w-full max-w-md" target="_blank">
+        <input 
+            type="text" 
+            id="duckSearchInput" 
+            placeholder="Search DuckDuckGo..." 
+            class="flex-grow px-4 py-3 rounded-l-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-neon"
+        >
+        <button 
+            type="submit" 
+            class="px-6 py-3 rounded-r-xl bg-purple-600 text-white hover:bg-purple-500 transition shadow-neon"
+        >
+            🔍
+        </button>
+    </form>
+</div>
+
+<style>
+    /* Neon shadow for input and button */
+    .shadow-neon {
+        box-shadow: 0 0 8px #0ff, 0 0 16px #0ff, inset 0 0 4px #0ff;
+        animation: neonGlow 5s linear infinite;
+    }
+
+    @keyframes neonGlow {
+        0%   { filter: hue-rotate(0deg); }
+        100% { filter: hue-rotate(360deg); }
+    }
+</style>
+
+<script>
+    // Redirect DuckDuckGo search query
+    document.getElementById("duckSearchForm").addEventListener("submit", function(e) {
+        e.preventDefault();
+        const query = document.getElementById("duckSearchInput").value;
+        if(query.trim() !== "") {
+            window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, "_blank");
+        }
+    });
+</script>
 
 </body>
 </html>
