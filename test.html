@@ -8,31 +8,32 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
-    <!-- Neon RGB Glow & Custom Styles -->
+    <!-- Neon RGB Glow -->
     <style>
         body {
             background-color: #030307;
             color: white;
-            display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
+            display: flex;
             min-height: 100vh;
-            font-family: 'Courier New', monospace;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         h1 {
-            font-size: 50px;
-            font-weight: bold;
+            font-size: 50px; /* Updated header size */
+            font-weight: 900;
             text-align: center;
-            margin-bottom: 10px;
+            margin-bottom: 20px;
             animation: glowPulse 3s infinite ease-in-out;
+            letter-spacing: 2px;
         }
 
         @keyframes glowPulse {
-            0%   { text-shadow: 0 0 8px #0ff; }
-            50%  { text-shadow: 0 0 20px #0ff; }
-            100% { text-shadow: 0 0 8px #0ff; }
+            0%   { text-shadow: 0 0 10px #0ff; }
+            50%  { text-shadow: 0 0 25px #0ff; }
+            100% { text-shadow: 0 0 10px #0ff; }
         }
 
         .cursedable, #cursedBtn {
@@ -40,14 +41,14 @@
             padding: 12px 24px;
             border-radius: 12px;
             font-size: 1.2rem;
-            font-weight: 500;
+            font-weight: 600;
             cursor: pointer;
             color: white;
             margin: 8px;
             box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
             animation: rgbGlow 5s linear infinite;
             transition: all 0.3s;
-            text-align: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         .cursedable:hover, #cursedBtn:hover {
@@ -64,7 +65,6 @@
             margin-top: 20px;
             font-size: 2rem;
             min-height: 50px;
-            text-align: center;
         }
 
         .button-container {
@@ -73,85 +73,72 @@
             justify-content: center;
         }
 
-        .search-form {
+        .search-container {
             margin-top: 20px;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
+            flex-direction: column;
+            align-items: center;
         }
 
-        .search-input {
-            padding: 12px;
-            border-radius: 12px 0 0 12px;
-            border: none;
-            background-color: #222;
-            color: white;
+        .search-bar {
+            display: flex;
+            width: 300px;
+            margin: 10px 0;
+        }
+
+        .search-bar input {
             flex-grow: 1;
-            min-width: 200px;
-            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
-            animation: rgbGlow 5s linear infinite;
-        }
-
-        .search-btn {
-            padding: 12px 20px;
-            border-radius: 0 12px 12px 0;
+            padding: 10px;
+            border-radius: 12px 0 0 12px;
+            background: #111;
             border: none;
-            background-color: #0ff;
-            color: black;
+            color: white;
+            outline: none;
+        }
+
+        .search-bar button {
+            padding: 10px 15px;
+            border-radius: 0 12px 12px 0;
+            background: #0ff;
+            border: none;
             cursor: pointer;
-            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
-            animation: rgbGlow 5s linear infinite;
             font-weight: bold;
+            color: #030307;
+            transition: all 0.3s;
         }
 
-        .search-btn:hover {
-            box-shadow: 0 0 12px #0ff, 0 0 24px #0ff, inset 0 0 8px #0ff;
-        }
-
-        #extra-content {
-            margin-top: 30px;
-            max-width: 800px;
-            text-align: center;
+        .search-bar button:hover {
+            background: #33ffff;
         }
     </style>
 </head>
 <body>
 
-    <h1>NULL ADVANCED</h1>
-    <p class="text-xl opacity-80">Official Site + Extras</p>
+    <h1>NULL</h1>
+    <p class="text-xl opacity-80">Official Site</p>
 
     <div class="button-container">
         <button onclick="showRandomNumber()" class="cursedable">Random Number</button>
         <button onclick="randomMessage()" class="cursedable">Random Message</button>
         <button onclick="changeBackground()" class="cursedable">Change Background</button>
         <button id="cursedBtn">🔥 CURSED MODE</button>
-
-        <!-- New Platformer Button -->
-        <a href="/platgame.html" class="cursedable" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
-            🎮 Platformer Game
-        </a>
+        <button onclick="window.location.href='/platgame.html'" class="cursedable">Platformer Game</button>
     </div>
 
     <div id="output"></div>
 
-    <!-- Google Search Form -->
-    <form id="googleSearchForm" class="search-form" target="_blank">
-        <input type="text" id="googleSearchInput" class="search-input" placeholder="Search Google...">
-        <button type="submit" class="search-btn">🔍</button>
-    </form>
-
-    <!-- DuckDuckGo Search Form -->
-    <form id="duckSearchForm" class="search-form" target="_blank">
-        <input type="text" id="duckSearchInput" class="search-input" placeholder="Search DuckDuckGo...">
-        <button type="submit" class="search-btn">🔍</button>
-    </form>
-
-    <div id="extra-content">
-        <h2>Extras</h2>
-        <p>Here you can find more random stuff, hidden messages, and more interactive neon elements!</p>
-        <button onclick="showEasterEgg()" class="cursedable">Reveal Easter Egg</button>
-        <div id="easterEgg" style="margin-top:20px;font-size:1.5rem;display:none;">✨ You found it! ✨</div>
+    <!-- Search Bars -->
+    <div class="search-container">
+        <!-- Google -->
+        <form id="googleForm" class="search-bar" target="_blank">
+            <input type="text" id="googleInput" placeholder="Search Google...">
+            <button type="submit">🔍</button>
+        </form>
+        <!-- DuckDuckGo -->
+        <form id="duckForm" class="search-bar" target="_blank">
+            <input type="text" id="duckInput" placeholder="Search DuckDuckGo...">
+            <button type="submit">🔍</button>
+        </form>
     </div>
 
     <script>
@@ -159,69 +146,84 @@
 
         function showRandomNumber() {
             const number = Math.floor(Math.random() * 1000);
-            document.getElementById('output').innerText = 'Random Number: ' + number;
+            document.getElementById("output").innerText = "Random Number: " + number;
         }
 
         function randomMessage() {
             const messages = [
-                'Made by Null',
-                'Did you touch grass today?',
-                'You have been blessed by me ✨',
-                'GET OU-',
-                'aw hell nah',
-                'Check your notifications',
-                'Time to relax',
-                'Maybe try coffee?',
-                'Are you coding today?',
-                'Just vibe 😎'
+                "Made by Null",
+                "Did you touch grass today?",
+                "You have been blessed by me ✨",
+                "GET OU-",
+                "aw hell nah",
+                "Life is a journey, not a sprint.",
+                "Sometimes silence speaks volumes.",
+                "Curiosity is your superpower.",
+                "Keep your focus, always.",
+                "The sky looks different today."
             ];
-            document.getElementById('output').innerText = messages[Math.floor(Math.random()*messages.length)];
+            document.getElementById("output").innerText = messages[Math.floor(Math.random() * messages.length)];
         }
 
         function changeBackground() {
-            const colors = ['#ff4343','#32a852','#424aff','#ff22cc','#ffaa00'];
-            document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
+            const colors = ["#ff4343", "#32a852", "#424aff", "#ff22cc", "#ffaa00"];
+            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
         }
 
         let cursed = false;
         let cursedInterval = null;
 
-        function toggleCursedMode(){
+        function toggleCursedMode() {
             cursed = !cursed;
-            const btn = document.getElementById('cursedBtn');
-            if(cursed){
-                btn.innerText = '💀 CURSED MODE: ON';
-                cursedInterval = setInterval(()=>{
-                    document.querySelectorAll('.cursedable').forEach(b=>{
-                        b.style.position='absolute';
-                        b.style.left=Math.random()*(window.innerWidth-200)+'px';
-                        b.style.top=Math.random()*(window.innerHeight-100)+'px';
+            const btn = document.getElementById("cursedBtn");
+
+            if(cursed) {
+                btn.innerText = "💀 CURSED MODE: ON";
+                btn.classList.remove("bg-red-600");
+                btn.classList.add("bg-purple-700");
+
+                cursedInterval = setInterval(() => {
+                    const buttons = document.querySelectorAll(".cursedable");
+                    buttons.forEach(b => {
+                        b.style.position = "absolute";
+                        b.style.left = Math.random() * (window.innerWidth - 200) + "px";
+                        b.style.top = Math.random() * (window.innerHeight - 100) + "px";
                     });
-                },300);
+                }, 300);
             } else {
-                btn.innerText='🔥 CURSED MODE';
+                btn.innerText = "🔥 CURSED MODE";
+                btn.classList.add("bg-red-600");
+                btn.classList.remove("bg-purple-700");
+
                 clearInterval(cursedInterval);
-                document.querySelectorAll('.cursedable').forEach(b=>{ b.style.position='static'; });
+
+                const buttons = document.querySelectorAll(".cursedable");
+                buttons.forEach(b => {
+                    b.style.position = "static";
+                });
             }
         }
 
-        document.getElementById('cursedBtn').addEventListener('click', toggleCursedMode);
+        document.getElementById("cursedBtn").addEventListener("click", toggleCursedMode);
 
-        document.getElementById('googleSearchForm').addEventListener('submit', function(e){
+        // Google search
+        document.getElementById("googleForm").addEventListener("submit", function(e){
             e.preventDefault();
-            const q = document.getElementById('googleSearchInput').value;
-            if(q.trim()!=='') window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank');
+            const query = document.getElementById("googleInput").value;
+            if(query.trim()!==""){
+                window.open("https://www.google.com/search?q="+encodeURIComponent(query), "_blank");
+            }
         });
 
-        document.getElementById('duckSearchForm').addEventListener('submit', function(e){
+        // DuckDuckGo search
+        document.getElementById("duckForm").addEventListener("submit", function(e){
             e.preventDefault();
-            const q = document.getElementById('duckSearchInput').value;
-            if(q.trim()!=='') window.open('https://duckduckgo.com/?q='+encodeURIComponent(q),'_blank');
+            const query = document.getElementById("duckInput").value;
+            if(query.trim()!==""){
+                window.open("https://duckduckgo.com/?q="+encodeURIComponent(query), "_blank");
+            }
         });
-
-        function showEasterEgg(){
-            document.getElementById('easterEgg').style.display='block';
-        }
     </script>
+
 </body>
 </html>
