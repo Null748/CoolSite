@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Null Advanced</title>
+    <link rel="icon" type="image/x-icon" href="https://emojiisland.com/cdn/shop/products/34_large.png?v=1571606117">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Neon RGB Glow & Custom Styles -->
+    <style>
+        body {
+            background-color: #030307;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+
+        h1 {
+            font-size: 50px;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 10px;
+            animation: glowPulse 3s infinite ease-in-out;
+        }
+
+        @keyframes glowPulse {
+            0%   { text-shadow: 0 0 8px #0ff; }
+            50%  { text-shadow: 0 0 20px #0ff; }
+            100% { text-shadow: 0 0 8px #0ff; }
+        }
+
+        .cursedable, #cursedBtn {
+            background-color: #111;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 500;
+            cursor: pointer;
+            color: white;
+            margin: 8px;
+            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
+            animation: rgbGlow 5s linear infinite;
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .cursedable:hover, #cursedBtn:hover {
+            box-shadow: 0 0 12px #0ff, 0 0 24px #0ff, inset 0 0 8px #0ff;
+            transform: translateY(-3px);
+        }
+
+        @keyframes rgbGlow {
+            0%   { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        #output {
+            margin-top: 20px;
+            font-size: 2rem;
+            min-height: 50px;
+            text-align: center;
+        }
+
+        .button-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .search-form {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .search-input {
+            padding: 12px;
+            border-radius: 12px 0 0 12px;
+            border: none;
+            background-color: #222;
+            color: white;
+            flex-grow: 1;
+            min-width: 200px;
+            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
+            animation: rgbGlow 5s linear infinite;
+        }
+
+        .search-btn {
+            padding: 12px 20px;
+            border-radius: 0 12px 12px 0;
+            border: none;
+            background-color: #0ff;
+            color: black;
+            cursor: pointer;
+            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
+            animation: rgbGlow 5s linear infinite;
+            font-weight: bold;
+        }
+
+        .search-btn:hover {
+            box-shadow: 0 0 12px #0ff, 0 0 24px #0ff, inset 0 0 8px #0ff;
+        }
+
+        #extra-content {
+            margin-top: 30px;
+            max-width: 800px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>NULL ADVANCED</h1>
+    <p class="text-xl opacity-80">Official Site + Extras</p>
+
+    <div class="button-container">
+        <button onclick="showRandomNumber()" class="cursedable">Random Number</button>
+        <button onclick="randomMessage()" class="cursedable">Random Message</button>
+        <button onclick="changeBackground()" class="cursedable">Change Background</button>
+        <button id="cursedBtn">🔥 CURSED MODE</button>
+
+        <!-- New Platformer Button -->
+        <a href="/platgame.html" class="cursedable" style="text-decoration:none; display:flex; align-items:center; justify-content:center;">
+            🎮 Platformer Game
+        </a>
+    </div>
+
+    <div id="output"></div>
+
+    <!-- Google Search Form -->
+    <form id="googleSearchForm" class="search-form" target="_blank">
+        <input type="text" id="googleSearchInput" class="search-input" placeholder="Search Google...">
+        <button type="submit" class="search-btn">🔍</button>
+    </form>
+
+    <!-- DuckDuckGo Search Form -->
+    <form id="duckSearchForm" class="search-form" target="_blank">
+        <input type="text" id="duckSearchInput" class="search-input" placeholder="Search DuckDuckGo...">
+        <button type="submit" class="search-btn">🔍</button>
+    </form>
+
+    <div id="extra-content">
+        <h2>Extras</h2>
+        <p>Here you can find more random stuff, hidden messages, and more interactive neon elements!</p>
+        <button onclick="showEasterEgg()" class="cursedable">Reveal Easter Egg</button>
+        <div id="easterEgg" style="margin-top:20px;font-size:1.5rem;display:none;">✨ You found it! ✨</div>
+    </div>
+
+    <script>
+        lucide.createIcons();
+
+        function showRandomNumber() {
+            const number = Math.floor(Math.random() * 1000);
+            document.getElementById('output').innerText = 'Random Number: ' + number;
+        }
+
+        function randomMessage() {
+            const messages = [
+                'Made by Null',
+                'Did you touch grass today?',
+                'You have been blessed by me ✨',
+                'GET OU-',
+                'aw hell nah',
+                'Check your notifications',
+                'Time to relax',
+                'Maybe try coffee?',
+                'Are you coding today?',
+                'Just vibe 😎'
+            ];
+            document.getElementById('output').innerText = messages[Math.floor(Math.random()*messages.length)];
+        }
+
+        function changeBackground() {
+            const colors = ['#ff4343','#32a852','#424aff','#ff22cc','#ffaa00'];
+            document.body.style.background = colors[Math.floor(Math.random()*colors.length)];
+        }
+
+        let cursed = false;
+        let cursedInterval = null;
+
+        function toggleCursedMode(){
+            cursed = !cursed;
+            const btn = document.getElementById('cursedBtn');
+            if(cursed){
+                btn.innerText = '💀 CURSED MODE: ON';
+                cursedInterval = setInterval(()=>{
+                    document.querySelectorAll('.cursedable').forEach(b=>{
+                        b.style.position='absolute';
+                        b.style.left=Math.random()*(window.innerWidth-200)+'px';
+                        b.style.top=Math.random()*(window.innerHeight-100)+'px';
+                    });
+                },300);
+            } else {
+                btn.innerText='🔥 CURSED MODE';
+                clearInterval(cursedInterval);
+                document.querySelectorAll('.cursedable').forEach(b=>{ b.style.position='static'; });
+            }
+        }
+
+        document.getElementById('cursedBtn').addEventListener('click', toggleCursedMode);
+
+        document.getElementById('googleSearchForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            const q = document.getElementById('googleSearchInput').value;
+            if(q.trim()!=='') window.open('https://www.google.com/search?q='+encodeURIComponent(q),'_blank');
+        });
+
+        document.getElementById('duckSearchForm').addEventListener('submit', function(e){
+            e.preventDefault();
+            const q = document.getElementById('duckSearchInput').value;
+            if(q.trim()!=='') window.open('https://duckduckgo.com/?q='+encodeURIComponent(q),'_blank');
+        });
+
+        function showEasterEgg(){
+            document.getElementById('easterEgg').style.display='block';
+        }
+    </script>
+</body>
+</html>
