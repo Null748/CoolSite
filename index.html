@@ -1,238 +1,696 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Null</title>
-<link rel="icon" type="image/x-icon" href="https://emojiisland.com/cdn/shop/products/34_large.png?v=1571606117">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NULL</title>
+  <link rel="icon" type="image/x-icon" href="https://emojiisland.com/cdn/shop/products/34_large.png?v=1571606117" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    :root {
+      --bg-1: #030307;
+      --bg-2: #0a0f1f;
+      --panel: rgba(255,255,255,0.06);
+      --border: rgba(255,255,255,0.14);
+      --text: #f8fafc;
+      --muted: rgba(255,255,255,0.7);
+      --glow: #00f7ff;
+      --glow-2: #9d4edd;
+      --danger: #ff3b6b;
+    }
 
-    <!-- Neon RGB Glow -->
-    <style>
-        body {
-            background-color: #030307;
-            color: white;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            display: flex;
-            min-height: 100vh;
-        }
+    * { box-sizing: border-box; }
 
-        h1 {
-            font-size: 40px;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
-            animation: glowPulse 3s infinite ease-in-out;
-        }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top, rgba(0,247,255,0.12), transparent 30%),
+        radial-gradient(circle at bottom right, rgba(157,78,221,0.16), transparent 30%),
+        linear-gradient(135deg, var(--bg-1), var(--bg-2));
+      overflow-x: hidden;
+      position: relative;
+    }
 
-        @keyframes glowPulse {
-            0%   { text-shadow: 0 0 8px #0ff; }
-            50%  { text-shadow: 0 0 20px #0ff; }
-            100% { text-shadow: 0 0 8px #0ff; }
-        }
+    canvas#bgCanvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.7;
+    }
 
-        .cursedable, #cursedBtn {
-            background-color: #111;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-size: 1.2rem;
-            font-weight: 500;
-            cursor: pointer;
-            color: white;
-            margin: 8px;
-            box-shadow: 0 0 6px #0ff, 0 0 12px #0ff, inset 0 0 4px #0ff;
-            animation: rgbGlow 5s linear infinite;
-            transition: all 0.3s;
-        }
+    .content-wrap {
+      position: relative;
+      z-index: 2;
+      width: 100%;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
 
-        .cursedable:hover, #cursedBtn:hover {
-            box-shadow: 0 0 12px #0ff, 0 0 24px #0ff, inset 0 0 8px #0ff;
-            transform: translateY(-3px);
-        }
+    .app-shell {
+      width: min(1100px, 100%);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      background: rgba(5, 8, 18, 0.7);
+      backdrop-filter: blur(16px);
+      box-shadow:
+        0 0 20px rgba(0, 247, 255, 0.12),
+        0 0 60px rgba(157, 78, 221, 0.1),
+        inset 0 0 30px rgba(255,255,255,0.03);
+      overflow: hidden;
+    }
 
-        @keyframes rgbGlow {
-            0%   { filter: hue-rotate(0deg); }
-            100% { filter: hue-rotate(360deg); }
-        }
+    .hero-title {
+      font-size: clamp(3rem, 8vw, 6rem);
+      line-height: 0.95;
+      font-weight: 900;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      text-shadow: 0 0 12px var(--glow), 0 0 28px var(--glow);
+      animation: glowPulse 3s infinite ease-in-out;
+    }
 
-        #output {
-            margin-top: 20px;
-            font-size: 2rem;
-            min-height: 50px;
-        }
+    .subline {
+      color: var(--muted);
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      font-size: 0.8rem;
+    }
 
-        .button-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-    </style>
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 10px var(--glow), 0 0 20px var(--glow); }
+      50% { text-shadow: 0 0 16px var(--glow), 0 0 34px var(--glow), 0 0 52px var(--glow-2); }
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--border);
+      border-radius: 22px;
+      box-shadow: inset 0 0 10px rgba(255,255,255,0.02);
+    }
+
+    .neon-btn,
+    .search-btn,
+    .search-input,
+    .link-card {
+      box-shadow: 0 0 8px rgba(0,247,255,0.5), 0 0 16px rgba(0,247,255,0.18), inset 0 0 5px rgba(0,247,255,0.16);
+      animation: hueShift 8s linear infinite;
+    }
+
+    @keyframes hueShift {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+
+    .neon-btn {
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.06);
+      color: white;
+      padding: 14px 18px;
+      border-radius: 16px;
+      font-weight: 700;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+      width: 100%;
+    }
+
+    .neon-btn:hover {
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 0 14px rgba(0,247,255,0.7), 0 0 26px rgba(157,78,221,0.28), inset 0 0 7px rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.1);
+    }
+
+    .danger-btn {
+      box-shadow: 0 0 10px rgba(255,59,107,0.45), 0 0 20px rgba(255,59,107,0.22), inset 0 0 6px rgba(255,59,107,0.16);
+    }
+
+    .output-box {
+      min-height: 110px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+      font-size: clamp(1.1rem, 2.2vw, 1.6rem);
+      font-weight: 700;
+      color: white;
+    }
+
+    .tiny-label {
+      color: var(--muted);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
+    .stat-card,
+    .link-card {
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .search-input {
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+      color: white;
+      border-radius: 14px 0 0 14px;
+      padding: 14px 16px;
+      outline: none;
+      width: 100%;
+    }
+
+    .search-input::placeholder { color: rgba(255,255,255,0.45); }
+
+    .search-btn {
+      border: 1px solid rgba(255,255,255,0.14);
+      border-left: none;
+      background: rgba(255,255,255,0.09);
+      color: white;
+      border-radius: 0 14px 14px 0;
+      padding: 14px 18px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .toast-wrap {
+      position: fixed;
+      top: 18px;
+      right: 18px;
+      z-index: 1000;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .toast {
+      background: rgba(10, 14, 28, 0.95);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.14);
+      padding: 12px 14px;
+      border-radius: 14px;
+      box-shadow: 0 0 12px rgba(0,247,255,0.22);
+      animation: slideIn 0.22s ease;
+      max-width: 300px;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(-8px) translateX(12px); }
+      to { opacity: 1; transform: translateY(0) translateX(0); }
+    }
+
+    .scanline::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 3;
+      background: linear-gradient(to bottom, rgba(255,255,255,0.02), rgba(255,255,255,0.01) 50%, transparent 50%, transparent);
+      background-size: 100% 5px;
+      opacity: 0.08;
+      mix-blend-mode: screen;
+    }
+
+    .glitch {
+      position: relative;
+      display: inline-block;
+    }
+
+    .glitch::before,
+    .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .glitch::before {
+      color: #0ff;
+      transform: translate(2px, 0);
+      opacity: 0.7;
+    }
+
+    .glitch::after {
+      color: #ff4ecd;
+      transform: translate(-2px, 0);
+      opacity: 0.7;
+    }
+
+    .cursed-mode .app-shell {
+      animation: cursedShake 0.18s infinite alternate;
+      box-shadow: 0 0 20px rgba(255,0,98,0.28), 0 0 60px rgba(120,0,255,0.22), inset 0 0 30px rgba(255,255,255,0.05);
+    }
+
+    .cursed-mode .hero-title {
+      animation: glitchFlash 0.22s infinite alternate;
+    }
+
+    @keyframes cursedShake {
+      from { transform: translate(1px, -1px) rotate(-0.25deg); }
+      to { transform: translate(-1px, 1px) rotate(0.25deg); }
+    }
+
+    @keyframes glitchFlash {
+      0% { transform: skew(0deg); }
+      25% { transform: skew(3deg); }
+      50% { transform: skew(-2deg); }
+      100% { transform: skew(1deg); }
+    }
+
+    @media (max-width: 768px) {
+      .content-wrap { padding: 14px; }
+      .app-shell { border-radius: 22px; }
+    }
+  </style>
 </head>
-<body>
+<body class="scanline">
+  <canvas id="bgCanvas"></canvas>
+  <div class="toast-wrap" id="toastWrap"></div>
 
-    <h1 style="font-size:50px">NULL</h1>
-    <p class="text-xl opacity-80">Official Site</p>
+  <div class="content-wrap">
+    <div class="app-shell">
+      <div class="grid lg:grid-cols-[1.1fr_0.9fr] gap-0">
+        <section class="p-6 md:p-10 border-b lg:border-b-0 lg:border-r border-white/10">
+          <div class="flex items-center justify-between gap-4 flex-wrap mb-8">
+            <div>
+              <div class="subline mb-3">Official Site</div>
+              <h1 class="hero-title glitch" id="mainTitle" data-text="NULL">NULL</h1>
+            </div>
+            <div class="panel px-4 py-3 min-w-[180px] text-right">
+              <div class="tiny-label mb-1">Local Time</div>
+              <div id="clock" class="text-lg font-bold">--:--:--</div>
+            </div>
+          </div>
 
-    <div class="button-container">
-    <button onclick="showRandomNumber()" class="cursedable">Random Number</button>
-    <button onclick="randomMessage()" class="cursedable">Random Message</button>
-    <button onclick="changeBackground()" class="cursedable">Change Background</button>
-    <button id="cursedBtn">🔥 CURSED MODE</button>
+          <div class="panel p-5 md:p-6 mb-6">
+            <div class="tiny-label mb-2">System Output</div>
+            <div id="output" class="output-box">Welcome to NULL. Press something weird.</div>
+          </div>
 
-    <!-- NEW BUTTON: Link to Null Home -->
-    <a href="/platgame.html" target="_blank" class="cursedable" style="display:flex;align-items:center;justify-content:center;text-decoration:none;">
-        Platformer Game
-    </a>
-</div>
+          <div class="grid sm:grid-cols-2 gap-4" id="buttonZone">
+            <button class="neon-btn action-btn" onclick="showRandomNumber()">🎲 Random Number</button>
+            <button class="neon-btn action-btn" onclick="randomMessage()">💬 Random Message</button>
+            <button class="neon-btn action-btn" onclick="changeBackground()">🌈 Change Background</button>
+            <button class="neon-btn action-btn" onclick="spawnChaos()">⚡ Chaos Burst</button>
+            <button class="neon-btn action-btn" onclick="copyChaosText()">📋 Copy Chaos Text</button>
+            <button class="neon-btn action-btn" onclick="toggleMatrix()">🟢 Matrix Rain</button>
+            <button id="cursedBtn" class="neon-btn danger-btn action-btn" onclick="toggleCursedMode()">🔥 CURSED MODE</button>
+            <a href="/platgame.html" target="_blank" class="neon-btn action-btn flex items-center justify-center text-center no-underline">🎮 Platformer Game</a>
+          </div>
+        </section>
 
-    <div id="output"></div>
+        <aside class="p-6 md:p-10">
+          <div class="grid grid-cols-2 gap-4 mb-6">
+            <div class="stat-card p-4">
+              <div class="tiny-label">Button Presses</div>
+              <div id="pressCount" class="text-2xl font-black mt-2">0</div>
+            </div>
+            <div class="stat-card p-4">
+              <div class="tiny-label">Best Number</div>
+              <div id="bestNumber" class="text-2xl font-black mt-2">0</div>
+            </div>
+            <div class="stat-card p-4">
+              <div class="tiny-label">Cursed Status</div>
+              <div id="cursedStatus" class="text-2xl font-black mt-2">OFF</div>
+            </div>
+            <div class="stat-card p-4">
+              <div class="tiny-label">Current Theme</div>
+              <div id="themeName" class="text-2xl font-black mt-2">Void</div>
+            </div>
+          </div>
 
-    <script>
-        lucide.createIcons();
+          <div class="panel p-5 mb-5">
+            <div class="tiny-label mb-3">Google Search</div>
+            <form id="googleSearchForm" class="flex">
+              <input id="googleSearchInput" class="search-input" type="text" placeholder="Search Google..." />
+              <button class="search-btn" type="submit">Search</button>
+            </form>
+          </div>
 
-        function showRandomNumber() {
-            const number = Math.floor(Math.random() * 1000);
-            document.getElementById("output").innerText = "Random Number: " + number;
-        }
+          <div class="panel p-5 mb-5">
+            <div class="tiny-label mb-3">DuckDuckGo Search</div>
+            <form id="duckSearchForm" class="flex">
+              <input id="duckSearchInput" class="search-input" type="text" placeholder="Search DuckDuckGo..." />
+              <button class="search-btn" type="submit">Search</button>
+            </form>
+          </div>
 
-        function randomMessage() {
-            const messages = [
-                "Made by Null",
-                "Did you touch grass today?",
-                "You have been blessed by me ✨",
-                "GET OU-",
-                "aw hell nah",
-            ];
-            document.getElementById("output").innerText =
-                messages[Math.floor(Math.random() * messages.length)];
-        }
+          <div class="panel p-5 mb-5">
+            <div class="tiny-label mb-3">Secret Console</div>
+            <form id="commandForm" class="flex gap-3 flex-col sm:flex-row">
+              <input id="commandInput" class="search-input rounded-[14px] sm:rounded-[14px] border !border-white/15" type="text" placeholder="Try: help, null, rave, reset, fortune" />
+              <button class="search-btn !rounded-[14px] !border !border-white/15" type="submit">Run</button>
+            </form>
+          </div>
 
-        function changeBackground() {
-            const colors = ["#ff4343", "#32a852", "#424aff", "#ff22cc", "#ffaa00"];
-            document.body.style.background = colors[Math.floor(Math.random() * colors.length)];
-        }
+          <div class="grid sm:grid-cols-2 gap-4">
+            <a href="https://geometrydash.io" target="_blank" class="link-card p-4 no-underline text-white">
+              <div class="tiny-label">Portal</div>
+              <div class="text-lg font-bold mt-2">Geometry Dash Stuff</div>
+            </a>
+            <button class="link-card p-4 text-left" onclick="toggleSound()">
+              <div class="tiny-label">Audio</div>
+              <div id="soundStatus" class="text-lg font-bold mt-2">Sound: OFF</div>
+            </button>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
 
-        let cursed = false;
-        let cursedInterval = null;
+  <script>
+    const output = document.getElementById('output');
+    const toastWrap = document.getElementById('toastWrap');
+    const pressCountEl = document.getElementById('pressCount');
+    const bestNumberEl = document.getElementById('bestNumber');
+    const cursedStatusEl = document.getElementById('cursedStatus');
+    const themeNameEl = document.getElementById('themeName');
+    const soundStatusEl = document.getElementById('soundStatus');
+    const body = document.body;
+    const buttonZone = document.getElementById('buttonZone');
 
-        function toggleCursedMode() {
-            cursed = !cursed;
-            const btn = document.getElementById("cursedBtn");
+    let cursed = false;
+    let cursedInterval = null;
+    let matrixMode = false;
+    let pressCount = Number(localStorage.getItem('null_press_count') || 0);
+    let bestNumber = Number(localStorage.getItem('null_best_number') || 0);
+    let currentTheme = localStorage.getItem('null_theme_name') || 'Void';
+    let soundEnabled = localStorage.getItem('null_sound_enabled') === 'true';
 
-            if(cursed) {
-                btn.innerText = "💀 CURSED MODE: ON";
-                btn.classList.remove("bg-red-600");
-                btn.classList.add("bg-purple-700");
+    const themes = [
+      { name: 'Void', bg1: '#030307', bg2: '#0a0f1f', glow: '#00f7ff', glow2: '#9d4edd' },
+      { name: 'Inferno', bg1: '#120309', bg2: '#29110a', glow: '#ff7b00', glow2: '#ff2e63' },
+      { name: 'Plasma', bg1: '#070312', bg2: '#120a28', glow: '#b517ff', glow2: '#00e5ff' },
+      { name: 'Toxic', bg1: '#03120a', bg2: '#0f2410', glow: '#6dff33', glow2: '#00ffd5' },
+      { name: 'Frozen', bg1: '#021018', bg2: '#081b2f', glow: '#8be9fd', glow2: '#4cc9f0' }
+    ];
 
-                cursedInterval = setInterval(() => {
-                    const buttons = document.querySelectorAll(".cursedable");
-                    buttons.forEach(b => {
-                        b.style.position = "absolute";
-                        b.style.left = Math.random() * (window.innerWidth - 200) + "px";
-                        b.style.top = Math.random() * (window.innerHeight - 100) + "px";
-                    });
-                }, 300);
-            } else {
-                btn.innerText = "🔥 CURSED MODE";
-                btn.classList.add("bg-red-600");
-                btn.classList.remove("bg-purple-700");
+    function updateStats() {
+      pressCountEl.textContent = pressCount;
+      bestNumberEl.textContent = bestNumber;
+      cursedStatusEl.textContent = cursed ? 'ON' : 'OFF';
+      themeNameEl.textContent = currentTheme;
+      soundStatusEl.textContent = `Sound: ${soundEnabled ? 'ON' : 'OFF'}`;
+      localStorage.setItem('null_press_count', pressCount);
+      localStorage.setItem('null_best_number', bestNumber);
+      localStorage.setItem('null_sound_enabled', soundEnabled);
+      localStorage.setItem('null_theme_name', currentTheme);
+    }
 
-                clearInterval(cursedInterval);
+    function setOutput(text) {
+      output.textContent = text;
+    }
 
-                const buttons = document.querySelectorAll(".cursedable");
-                buttons.forEach(b => {
-                    b.style.position = "static";
-                });
+    function makeToast(text) {
+      const toast = document.createElement('div');
+      toast.className = 'toast';
+      toast.textContent = text;
+      toastWrap.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(20px)';
+        toast.style.transition = '0.25s ease';
+      }, 2200);
+      setTimeout(() => toast.remove(), 2600);
+    }
+
+    function registerPress() {
+      pressCount += 1;
+      updateStats();
+      if (soundEnabled) beep(160 + Math.random() * 280, 0.05);
+    }
+
+    function showRandomNumber() {
+      registerPress();
+      const number = Math.floor(Math.random() * 1000) + 1;
+      if (number > bestNumber) {
+        bestNumber = number;
+        makeToast(`New high roll: ${number}`);
+      }
+      setOutput(`Random Number: ${number}`);
+      updateStats();
+    }
+
+    function randomMessage() {
+      registerPress();
+      const messages = [
+        'Made by Null',
+        'Did you touch grass today?',
+        'You have been blessed by me ✨',
+        'GET OU-',
+        'aw hell nah',
+        'Reality.exe has stopped working',
+        'The void noticed you',
+        'NULL approves this chaos',
+        'You pressed the wrong right button'
+      ];
+      setOutput(messages[Math.floor(Math.random() * messages.length)]);
+    }
+
+    function applyTheme(theme) {
+      document.documentElement.style.setProperty('--bg-1', theme.bg1);
+      document.documentElement.style.setProperty('--bg-2', theme.bg2);
+      document.documentElement.style.setProperty('--glow', theme.glow);
+      document.documentElement.style.setProperty('--glow-2', theme.glow2);
+      currentTheme = theme.name;
+      updateStats();
+    }
+
+    function changeBackground() {
+      registerPress();
+      const theme = themes[Math.floor(Math.random() * themes.length)];
+      applyTheme(theme);
+      setOutput(`Theme changed: ${theme.name}`);
+    }
+
+    function copyChaosText() {
+      registerPress();
+      const text = 'NULL WAS HERE // ENTER THE VOID';
+      navigator.clipboard.writeText(text)
+        .then(() => {
+          setOutput(`Copied: ${text}`);
+          makeToast('Chaos text copied');
+        })
+        .catch(() => setOutput('Could not copy, but the chaos remains.'));
+    }
+
+    function spawnChaos() {
+      registerPress();
+      const burst = ['☠️','⚡','💀','🌀','👁️','🔥','✨'];
+      for (let i = 0; i < 18; i++) {
+        const el = document.createElement('div');
+        el.textContent = burst[Math.floor(Math.random() * burst.length)];
+        el.style.position = 'fixed';
+        el.style.left = Math.random() * window.innerWidth + 'px';
+        el.style.top = Math.random() * window.innerHeight + 'px';
+        el.style.zIndex = '999';
+        el.style.fontSize = 18 + Math.random() * 26 + 'px';
+        el.style.pointerEvents = 'none';
+        el.style.transition = 'transform 1s ease, opacity 1s ease';
+        document.body.appendChild(el);
+        requestAnimationFrame(() => {
+          el.style.transform = `translateY(${50 + Math.random() * 140}px) rotate(${Math.random() * 360}deg)`;
+          el.style.opacity = '0';
+        });
+        setTimeout(() => el.remove(), 1050);
+      }
+      setOutput('Chaos burst activated. Good luck.');
+    }
+
+    function toggleCursedMode() {
+      registerPress();
+      cursed = !cursed;
+      const btn = document.getElementById('cursedBtn');
+      btn.textContent = cursed ? '💀 CURSED MODE: ON' : '🔥 CURSED MODE';
+      body.classList.toggle('cursed-mode', cursed);
+      cursedStatusEl.textContent = cursed ? 'ON' : 'OFF';
+
+      clearInterval(cursedInterval);
+      document.querySelectorAll('.action-btn').forEach(b => {
+        b.style.position = 'relative';
+        b.style.left = '0px';
+        b.style.top = '0px';
+      });
+
+      if (cursed) {
+        setOutput('Cursed mode enabled. Buttons are no longer trustworthy.');
+        makeToast('Cursed mode ON');
+        cursedInterval = setInterval(() => {
+          document.querySelectorAll('.action-btn').forEach(b => {
+            if (Math.random() > 0.2) {
+              b.style.transform = `translate(${(Math.random() - 0.5) * 16}px, ${(Math.random() - 0.5) * 16}px) rotate(${(Math.random() - 0.5) * 4}deg)`;
             }
-        }
-
-        document.getElementById("cursedBtn").addEventListener("click", toggleCursedMode);
-    </script>
-<!-- Google Search Bar -->
-<div class="mt-8 flex justify-center w-full">
-    <form id="googleSearchForm" class="flex w-full max-w-md" target="_blank">
-        <input 
-            type="text" 
-            id="googleSearchInput" 
-            placeholder="Search Google..." 
-            class="flex-grow px-4 py-3 rounded-l-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400 shadow-neon"
-        >
-        <button 
-            type="submit" 
-            class="px-6 py-3 rounded-r-xl bg-cyan-600 text-white hover:bg-cyan-500 transition shadow-neon"
-        >
-            🔍
-        </button>
-    </form>
-</div>
-
-<style>
-    /* Neon shadow for input and button */
-    .shadow-neon {
-        box-shadow: 0 0 8px #0ff, 0 0 16px #0ff, inset 0 0 4px #0ff;
-        animation: neonGlow 5s linear infinite;
+          });
+        }, 220);
+      } else {
+        setOutput('Cursed mode disabled. Reality restored... mostly.');
+        makeToast('Cursed mode OFF');
+        document.querySelectorAll('.action-btn').forEach(b => {
+          b.style.transform = 'translate(0,0) rotate(0deg)';
+        });
+      }
+      updateStats();
     }
 
-    @keyframes neonGlow {
-        0%   { filter: hue-rotate(0deg); }
-        100% { filter: hue-rotate(360deg); }
+    function toggleSound() {
+      soundEnabled = !soundEnabled;
+      updateStats();
+      setOutput(soundEnabled ? 'Sound enabled.' : 'Sound disabled.');
+      if (soundEnabled) beep(440, 0.08);
     }
-</style>
 
-<script>
-    // Redirect Google search query
-    document.getElementById("googleSearchForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        const query = document.getElementById("googleSearchInput").value;
-        if(query.trim() !== "") {
-            window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, "_blank");
-        }
+    let audioCtx;
+    function beep(freq = 300, duration = 0.06) {
+      try {
+        audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+        const oscillator = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        oscillator.type = 'square';
+        oscillator.frequency.value = freq;
+        gain.gain.value = 0.02;
+        oscillator.connect(gain);
+        gain.connect(audioCtx.destination);
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + duration);
+      } catch (e) {
+        // ignore audio errors
+      }
+    }
+
+    function toggleMatrix() {
+      registerPress();
+      matrixMode = !matrixMode;
+      setOutput(matrixMode ? 'Matrix rain enabled.' : 'Matrix rain disabled.');
+      makeToast(matrixMode ? 'Matrix mode ON' : 'Matrix mode OFF');
+    }
+
+    function runCommand(command) {
+      const cmd = command.trim().toLowerCase();
+      if (!cmd) return;
+
+      if (cmd === 'help') return setOutput('Commands: help, null, rave, reset, fortune, cursed, theme');
+      if (cmd === 'null') return setOutput('NULL sees you.');
+      if (cmd === 'rave') return spawnChaos();
+      if (cmd === 'fortune') {
+        const fortunes = [
+          'A secret level awaits.',
+          'Today is a good day to make something cool.',
+          'You are one click away from chaos.',
+          'The void respects persistence.'
+        ];
+        return setOutput(fortunes[Math.floor(Math.random() * fortunes.length)]);
+      }
+      if (cmd === 'cursed') return toggleCursedMode();
+      if (cmd === 'theme') return changeBackground();
+      if (cmd === 'reset') {
+        localStorage.removeItem('null_press_count');
+        localStorage.removeItem('null_best_number');
+        localStorage.removeItem('null_theme_name');
+        pressCount = 0;
+        bestNumber = 0;
+        applyTheme(themes[0]);
+        setOutput('Stats reset. Fresh chaos.');
+        return updateStats();
+      }
+      setOutput(`Unknown command: ${cmd}`);
+    }
+
+    document.getElementById('googleSearchForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const query = document.getElementById('googleSearchInput').value.trim();
+      if (!query) return;
+      window.open(`https://www.google.com/search?q=${encodeURIComponent(query)}`, '_blank');
     });
-</script>
-<!-- DuckDuckGo Search Bar -->
-<div class="mt-8 flex justify-center w-full">
-    <form id="duckSearchForm" class="flex w-full max-w-md" target="_blank">
-        <input 
-            type="text" 
-            id="duckSearchInput" 
-            placeholder="Search DuckDuckGo..." 
-            class="flex-grow px-4 py-3 rounded-l-xl bg-gray-800 text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-purple-400 shadow-neon"
-        >
-        <button 
-            type="submit" 
-            class="px-6 py-3 rounded-r-xl bg-purple-600 text-white hover:bg-purple-500 transition shadow-neon"
-        >
-            🔍
-        </button>
-    </form>
-</div>
 
-<style>
-    /* Neon shadow for input and button */
-    .shadow-neon {
-        box-shadow: 0 0 8px #0ff, 0 0 16px #0ff, inset 0 0 4px #0ff;
-        animation: neonGlow 5s linear infinite;
-    }
-
-    @keyframes neonGlow {
-        0%   { filter: hue-rotate(0deg); }
-        100% { filter: hue-rotate(360deg); }
-    }
-</style>
-
-<script>
-    // Redirect DuckDuckGo search query
-    document.getElementById("duckSearchForm").addEventListener("submit", function(e) {
-        e.preventDefault();
-        const query = document.getElementById("duckSearchInput").value;
-        if(query.trim() !== "") {
-            window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, "_blank");
-        }
+    document.getElementById('duckSearchForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const query = document.getElementById('duckSearchInput').value.trim();
+      if (!query) return;
+      window.open(`https://duckduckgo.com/?q=${encodeURIComponent(query)}`, '_blank');
     });
-</script>
-    
+
+    document.getElementById('commandForm').addEventListener('submit', e => {
+      e.preventDefault();
+      const input = document.getElementById('commandInput');
+      runCommand(input.value);
+      input.value = '';
+    });
+
+    function updateClock() {
+      const now = new Date();
+      document.getElementById('clock').textContent = now.toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Background particles / stars / matrix rain
+    const canvas = document.getElementById('bgCanvas');
+    const ctx = canvas.getContext('2d');
+    let w, h;
+    let stars = [];
+    let drops = [];
+
+    function resizeCanvas() {
+      w = canvas.width = window.innerWidth;
+      h = canvas.height = window.innerHeight;
+      stars = Array.from({ length: Math.floor((w * h) / 18000) }, () => ({
+        x: Math.random() * w,
+        y: Math.random() * h,
+        r: Math.random() * 1.8,
+        s: 0.15 + Math.random() * 0.45
+      }));
+      drops = Array.from({ length: Math.floor(w / 18) }, () => Math.floor(Math.random() * h / 20));
+    }
+
+    function drawBackground() {
+      ctx.clearRect(0, 0, w, h);
+
+      // stars
+      for (const star of stars) {
+        ctx.beginPath();
+        ctx.fillStyle = 'rgba(255,255,255,0.75)';
+        ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+        ctx.fill();
+        star.y += star.s;
+        if (star.y > h) {
+          star.y = -5;
+          star.x = Math.random() * w;
+        }
+      }
+
+      // matrix rain optional
+      if (matrixMode) {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.08)';
+        ctx.fillRect(0, 0, w, h);
+        ctx.fillStyle = '#49ff72';
+        ctx.font = '16px monospace';
+        drops.forEach((drop, i) => {
+          const text = String.fromCharCode(0x30A0 + Math.random() * 96);
+          ctx.fillText(text, i * 18, drop * 20);
+          if (drop * 20 > h && Math.random() > 0.975) drops[i] = 0;
+          drops[i]++;
+        });
+      }
+
+      requestAnimationFrame(drawBackground);
+    }
+
+    resizeCanvas();
+    drawBackground();
+    window.addEventListener('resize', resizeCanvas);
+
+    // Init
+    const savedTheme = themes.find(t => t.name === currentTheme) || themes[0];
+    applyTheme(savedTheme);
+    updateStats();
+  </script>
 </body>
 </html>
