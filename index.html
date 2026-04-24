@@ -300,9 +300,9 @@
             <button class="neon-btn action-btn" onclick="randomMessage()">💬 Random Message</button>
             <button class="neon-btn action-btn" onclick="changeBackground()">🌈 Change Background</button>
             <button class="neon-btn action-btn" onclick="spawnChaos()">⚡ Chaos Burst</button>
-            <button class="neon-btn action-btn" onclick="copyChaosText()">📋 Copy Chaos Text</button>
-            <button class="neon-btn action-btn" onclick="toggleMatrix()">🟢 Matrix Rain</button>
-            <button id="cursedBtn" class="neon-btn danger-btn action-btn" onclick="toggleCursedMode()">🔥 CURSED MODE</button>
+            <button class="neon-btn action-btn" onclick="copyChaosText()">📋 Copy Some Text</button>
+            <button class="neon-btn action-btn" onclick="toggleMatrix()">🟢 Rain</button>
+            <button id="cursedBtn" class="neon-btn danger-btn action-btn" onclick="toggleCursedMode()">🔥 Wiggle Mode</button>
             <a href="/platgame.html" target="_blank" class="neon-btn action-btn flex items-center justify-center text-center no-underline">🎮 Platformer Game</a>
           </div>
         </section>
@@ -447,10 +447,10 @@
         'You have been blessed by me ✨',
         'GET OU-',
         'aw hell nah',
-        'Reality.exe has stopped working',
+        'your last brain cell has stopped working',
         'The void noticed you',
-        'NULL approves this chaos',
-        'You pressed the wrong right button'
+        'lock in on life',
+        'are you a cornball? 🌽'
       ];
       setOutput(messages[Math.floor(Math.random() * messages.length)]);
     }
@@ -473,18 +473,18 @@
 
     function copyChaosText() {
       registerPress();
-      const text = 'NULL WAS HERE // ENTER THE VOID';
+      const text = '@thegreatnull';
       navigator.clipboard.writeText(text)
         .then(() => {
           setOutput(`Copied: ${text}`);
           makeToast('Chaos text copied');
         })
-        .catch(() => setOutput('Could not copy, but the chaos remains.'));
+        .catch(() => setOutput('Could not copy, too bad'));
     }
 
     function spawnChaos() {
       registerPress();
-      const burst = ['☠️','⚡','💀','🌀','👁️','🔥','✨'];
+      const burst = ['💔','🥀','💀','😭','✌️','🫩','🤞'];
       for (let i = 0; i < 18; i++) {
         const el = document.createElement('div');
         el.textContent = burst[Math.floor(Math.random() * burst.length)];
@@ -502,14 +502,14 @@
         });
         setTimeout(() => el.remove(), 1050);
       }
-      setOutput('Chaos burst activated. Good luck.');
+      setOutput('Cool huh?');
     }
 
     function toggleCursedMode() {
       registerPress();
       cursed = !cursed;
       const btn = document.getElementById('cursedBtn');
-      btn.textContent = cursed ? '💀 CURSED MODE: ON' : '🔥 CURSED MODE';
+      btn.textContent = cursed ? 'Wiggle Mode: ON' : '🔥 Wiggle Mode';
       body.classList.toggle('cursed-mode', cursed);
       cursedStatusEl.textContent = cursed ? 'ON' : 'OFF';
 
@@ -521,8 +521,8 @@
       });
 
       if (cursed) {
-        setOutput('Cursed mode enabled. Buttons are no longer trustworthy.');
-        makeToast('Cursed mode ON');
+        setOutput('Wiggle mode enabled. hehe');
+        makeToast('Wiggle mode ON');
         cursedInterval = setInterval(() => {
           document.querySelectorAll('.action-btn').forEach(b => {
             if (Math.random() > 0.2) {
@@ -531,8 +531,8 @@
           });
         }, 220);
       } else {
-        setOutput('Cursed mode disabled. Reality restored... mostly.');
-        makeToast('Cursed mode OFF');
+        setOutput('Wiggle mode disabled. Reality restored... mostly.');
+        makeToast('Wiggle mode OFF');
         document.querySelectorAll('.action-btn').forEach(b => {
           b.style.transform = 'translate(0,0) rotate(0deg)';
         });
@@ -568,8 +568,8 @@
     function toggleMatrix() {
       registerPress();
       matrixMode = !matrixMode;
-      setOutput(matrixMode ? 'Matrix rain enabled.' : 'Matrix rain disabled.');
-      makeToast(matrixMode ? 'Matrix mode ON' : 'Matrix mode OFF');
+      setOutput(matrixMode ? 'rain enabled.' : 'rain disabled.');
+      makeToast(matrixMode ? 'rain mode ON' : 'rain mode OFF');
     }
 
     function runCommand(command) {
@@ -577,14 +577,14 @@
       if (!cmd) return;
 
       if (cmd === 'help') return setOutput('Commands: help, null, rave, reset, fortune, cursed, theme');
-      if (cmd === 'null') return setOutput('NULL sees you.');
+      if (cmd === 'null') return setOutput('w0terlife');
       if (cmd === 'rave') return spawnChaos();
       if (cmd === 'fortune') {
         const fortunes = [
-          'A secret level awaits.',
-          'Today is a good day to make something cool.',
-          'You are one click away from chaos.',
-          'The void respects persistence.'
+          'Go watch my vids',
+          'Your getting too interested in this.',
+          'Yeah bro at this point just leave',
+          'I respect consistency.'
         ];
         return setOutput(fortunes[Math.floor(Math.random() * fortunes.length)]);
       }
@@ -597,7 +597,7 @@
         pressCount = 0;
         bestNumber = 0;
         applyTheme(themes[0]);
-        setOutput('Stats reset. Fresh chaos.');
+        setOutput('Stats reset..');
         return updateStats();
       }
       setOutput(`Unknown command: ${cmd}`);
