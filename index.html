@@ -292,7 +292,7 @@
 
           <div class="panel p-5 md:p-6 mb-6">
             <div class="tiny-label mb-2">System Output</div>
-            <div id="output" class="output-box">Welcome to NULL. Press something weird.</div>
+            <div id="output" class="output-box">Welcome.</div>
           </div>
 
           <div class="grid sm:grid-cols-2 gap-4" id="buttonZone">
@@ -344,7 +344,7 @@
           </div>
 
           <div class="panel p-5 mb-5">
-            <div class="tiny-label mb-3">Secret Console</div>
+            <div class="tiny-label mb-3">Console</div>
             <form id="commandForm" class="flex gap-3 flex-col sm:flex-row">
               <input id="commandInput" class="search-input rounded-[14px] sm:rounded-[14px] border !border-white/15" type="text" placeholder="Try: help, null, rave, reset, fortune" />
               <button class="search-btn !rounded-[14px] !border !border-white/15" type="submit">Run</button>
@@ -477,7 +477,7 @@
       navigator.clipboard.writeText(text)
         .then(() => {
           setOutput(`Copied: ${text}`);
-          makeToast('Chaos text copied');
+          makeToast('text copied');
         })
         .catch(() => setOutput('Could not copy, too bad'));
     }
@@ -531,7 +531,7 @@
           });
         }, 220);
       } else {
-        setOutput('Wiggle mode disabled. Reality restored... mostly.');
+        setOutput('Wiggle mode disabled.');
         makeToast('Wiggle mode OFF');
         document.querySelectorAll('.action-btn').forEach(b => {
           b.style.transform = 'translate(0,0) rotate(0deg)';
